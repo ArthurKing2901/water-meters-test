@@ -10,14 +10,6 @@ const Container = styled.div`
 `;
 
 const App = () => {
-  // const [meters, setMeters] = useState<MeterType[]>([]);
-  //
-  // useEffect(() => {
-  //   meterStore.fetchMeters().then(() => {
-  //     setMeters(meterStore.meters);
-  //   });
-  // }, []);
-
   return (
     <Container>
       <MetersList />
