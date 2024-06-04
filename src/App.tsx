@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import MetersList from './components/MetersList';
 import styled from 'styled-components';
 import { meterStore, MeterType } from './store/MetersStore';

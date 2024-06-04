@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import DeleteIcon from '../styled/icons/DeleteButtonHover.png';
 import { meterStore } from '../store/MetersStore';
 import { DeleteButton, Row } from '../styled/Global.styled';
 
@@ -21,7 +22,7 @@ const MeterRow: React.FC<{ meter: any; index: number }> = ({
         );
       }
     });
-  }, []);
+  }, [meter.area.id]);
 
   const handleDelete = () => {
     meterStore.deleteMeter(meter.id);
@@ -29,7 +30,7 @@ const MeterRow: React.FC<{ meter: any; index: number }> = ({
 
   return (
     <Row>
-      <td>{index}</td>
+      <td style={{ textAlign: 'center', padding: '8px' }}>{index}</td>
       <td>{meter._type.includes('ColdWaterAreaMeter') ? '💧ХВС' : '🔥ГВС'}</td>
       <td>
         {meter.installation_date
@@ -40,8 +41,10 @@ const MeterRow: React.FC<{ meter: any; index: number }> = ({
       <td>{meter.initial_values || 'N/A'}</td>
       <td>{address}</td>
       <td>{meter.description || 'N/A'}</td>
-      <td style={{ width: '70px' }}>
-        <DeleteButton onClick={handleDelete}>Удалить</DeleteButton>
+      <td style={{ width: '64px' }}>
+        <DeleteButton onClick={handleDelete}>
+          <img src={DeleteIcon} alt="Delete Button Icon" />
+        </DeleteButton>
       </td>
     </Row>
   );

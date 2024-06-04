@@ -13,14 +13,14 @@ import {
 
 const MetersList = observer(() => {
   useEffect(() => {
-    meterStore.fetchMeters().then((r) => {});
+    meterStore.fetchMeters();
   }, []);
 
   const totalPages = Math.ceil(meterStore.totalCount / meterStore.limit);
   const currentPage = Math.floor(meterStore.offset / meterStore.limit) + 1;
 
   const handlePageClick = (page: number) => {
-    meterStore.setPage(page).then((r) => {});
+    meterStore.setPage(page);
   };
 
   const renderPagination = () => {
@@ -30,7 +30,6 @@ const MetersList = observer(() => {
       for (let i = 1; i <= totalPages; i++) {
         pages.push(
           <Button
-            key={i}
             onClick={() => handlePageClick(i)}
             disabled={currentPage === i}
           >

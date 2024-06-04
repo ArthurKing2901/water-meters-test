@@ -24,7 +24,7 @@ const Address = types.model('Address', {
   house: House,
 });
 
-const Meter = types.model('Counter', {
+const Meter = types.model('Meter', {
   id: types.identifier,
   _type: types.array(types.string),
   installation_date: types.string,
