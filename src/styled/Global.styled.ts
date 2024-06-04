@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import ColdWaterIcon from '../styled/icons/CWA.png';
 
 export const H3 = styled.h3`
   font-weight: 500;
@@ -13,7 +12,6 @@ export const Container = styled.div`
   width: 100%;
   margin: 0 auto;
   padding: 20px;
-  border-collapse: collapse;
 `;
 
 export const Table = styled.table`
@@ -52,6 +50,8 @@ export const Button = styled.button`
 
 export const Row = styled.tr`
   height: 52px;
+
+  align-items: center;
 
   border: 1px solid #f0f3f7;
   border-collapse: collapse;

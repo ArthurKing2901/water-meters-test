@@ -1,5 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import DeleteIcon from '../styled/icons/DeleteButtonHover.png';
+import ColdWaterIcon from '../styled/icons/ColdWaterIcon.png';
+import HotWaterIcon from '../styled/icons/HotWaterIcon.png';
+
 import { meterStore } from '../store/MetersStore';
 import { DeleteButton, Row } from '../styled/Global.styled';
 
@@ -31,7 +34,14 @@ const MeterRow: React.FC<{ meter: any; index: number }> = ({
   return (
     <Row>
       <td style={{ textAlign: 'center', padding: '8px' }}>{index}</td>
-      <td>{meter._type.includes('ColdWaterAreaMeter') ? '💧ХВС' : '🔥ГВС'}</td>
+      <td>
+        {meter._type.includes('ColdWaterAreaMeter') ? (
+          <img src={ColdWaterIcon} alt="Cold Water Icon" />
+        ) : (
+          <img src={HotWaterIcon} alt="Hot Water Icon" />
+        )}{' '}
+        {meter._type.includes('ColdWaterAreaMeter') ? 'ХВС' : 'ГВС'}
+      </td>
       <td>
         {meter.installation_date
           ? new Date(meter.installation_date).toLocaleDateString()
