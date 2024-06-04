@@ -44,19 +44,16 @@ export const Button = styled.button`
 export const Row = styled.tr`
   border: 1px solid #f0f3f7;
   border-collapse: collapse;
+
   &:hover {
     background-color: #f7f8f9;
   }
 `;
 
 export const DeleteButton = styled.button`
-    display: none;
+  display: none;
 
-
-    ${Row}:hover & {
-        display: inline;
-    }
-\
-
-}
+  ${Row}:hover & {
+    display: inline;
+  }
 `;
