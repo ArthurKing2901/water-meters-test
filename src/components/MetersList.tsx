@@ -13,8 +13,86 @@ import {
 
 const MetersList = observer(() => {
   useEffect(() => {
-    meterStore.fetchMeters().then(() => {});
+    meterStore.fetchMeters().then((r) => {});
   }, []);
+
+  const totalPages = Math.ceil(meterStore.totalCount / meterStore.limit);
+  const currentPage = Math.floor(meterStore.offset / meterStore.limit) + 1;
+
+  const handlePageClick = (page: number) => {
+    meterStore.setPage(page).then((r) => {});
+  };
+
+  const renderPagination = () => {
+    const pages = [];
+
+    if (totalPages <= 5) {
+      for (let i = 1; i <= totalPages; i++) {
+        pages.push(
+          <Button
+            key={i}
+            onClick={() => handlePageClick(i)}
+            disabled={currentPage === i}
+          >
+            {i}
+          </Button>
+        );
+      }
+    } else {
+      pages.push(
+        <Button
+          key={1}
+          onClick={() => handlePageClick(1)}
+          disabled={currentPage === 1}
+        >
+          1
+        </Button>
+      );
+
+      if (currentPage > 3) {
+        pages.push(
+          <Button key="start-ellipsis" disabled>
+            ...
+          </Button>
+        );
+      }
+
+      const startPage = Math.max(2, currentPage - 1);
+      const endPage = Math.min(totalPages - 1, currentPage + 1);
+
+      for (let i = startPage; i <= endPage; i++) {
+        pages.push(
+          <Button
+            key={i}
+            onClick={() => handlePageClick(i)}
+            disabled={currentPage === i}
+          >
+            {i}
+          </Button>
+        );
+      }
+
+      if (currentPage < totalPages - 2) {
+        pages.push(
+          <Button key="end-ellipsis" disabled>
+            ...
+          </Button>
+        );
+      }
+
+      pages.push(
+        <Button
+          key={totalPages}
+          onClick={() => handlePageClick(totalPages)}
+          disabled={currentPage === totalPages}
+        >
+          {totalPages}
+        </Button>
+      );
+    }
+
+    return pages;
+  };
 
   return (
     <Container>
@@ -34,19 +112,15 @@ const MetersList = observer(() => {
         </thead>
         <tbody>
           {meterStore.meters.map((meter, index) => (
-            <MeterRow key={meter.id} meter={meter} index={index + 1} />
+            <MeterRow
+              key={meter.id}
+              meter={meter}
+              index={index + 1 + meterStore.offset}
+            />
           ))}
         </tbody>
       </Table>
-      <Pagination>
-        <Button>1</Button>
-        <Button>2</Button>
-        <Button>3</Button>
-        <Button>...</Button>
-        <Button>4</Button>
-        <Button>5</Button>
-        <Button>6</Button>
-      </Pagination>
+      <Pagination>{renderPagination()}</Pagination>
     </Container>
   );
 });

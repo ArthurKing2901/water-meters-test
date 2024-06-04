@@ -42,6 +42,7 @@ const MeterStore = types
     addresses: types.array(Address),
     limit: 20,
     offset: 0,
+    totalCount: types.optional(types.number, 0), // добавлено свойство totalCount
   })
   .actions((self) => ({
     fetchMeters: flow(function* () {
@@ -50,10 +51,12 @@ const MeterStore = types
           `http://showroom.eis24.me/api/v4/test/meters/?limit=${self.limit}&offset=${self.offset}`
         );
         self.meters = response.data.results;
+        self.totalCount = response.data.count; // сохраняем значение count
       } catch (error) {
         console.error('Failed to fetch counters', error);
       }
     }),
+
     fetchAddresses: flow(function* (ids: string[]) {
       try {
         const response = yield axios.get(
@@ -64,6 +67,7 @@ const MeterStore = types
         console.error('Failed to fetch addresses', error);
       }
     }),
+
     deleteMeter: flow(function* (id: string) {
       try {
         yield axios.delete(
@@ -78,6 +82,12 @@ const MeterStore = types
       } catch (error) {
         console.error('Failed to delete counter', error);
       }
+    }),
+
+    setPage: flow(function* (page) {
+      self.offset = (page - 1) * self.limit;
+      // @ts-ignore
+      yield self.fetchMeters();
     }),
   }));
 

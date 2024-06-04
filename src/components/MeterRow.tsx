@@ -9,7 +9,6 @@ const MeterRow: React.FC<{ meter: any; index: number }> = ({
   const [address, setAddress] = useState('');
 
   useEffect(() => {
-    // @ts-ignore
     meterStore.fetchAddresses(meter.area.id).then(() => {
       const address = meterStore.addresses.find(
         (address) => address.id === meter.area.id
