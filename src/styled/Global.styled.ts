@@ -9,8 +9,7 @@ export const H3 = styled.h3`
 `;
 
 export const Container = styled.div`
-  max-width: 1440px;
-  max-height: 1024px;
+  height: 95vh;
   margin: 0 auto;
   padding: 20px;
   overflow: hidden;
@@ -19,6 +18,8 @@ export const Container = styled.div`
 `;
 
 export const TableContainer = styled.div`
+  max-width: 1440px;
+  //max-height: 95vh;
   flex: 1;
   overflow: auto;
 `;

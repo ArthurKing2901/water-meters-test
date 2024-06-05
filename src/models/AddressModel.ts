@@ -27,3 +27,12 @@ export const Address = types.model('Address', {
   str_number_full: types.string,
   house: House,
 });
+
+export const getAddressView = (address: AddressType | undefined) => {
+  const addressView =
+    address?.house.address.split(',').slice(1) +
+    ', ' +
+    address?.str_number_full;
+
+  return addressView || 'N/A';
+};

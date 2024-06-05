@@ -13,7 +13,7 @@ const ICON: Record<WaterAreaMeterType, string> = {
   HotWaterAreaMeter: HotWaterIcon,
 };
 
-export const MeterAffil = ({ type }: { type: WaterAreaMeterType }) => {
+export const MeterCharacter = ({ type }: { type: WaterAreaMeterType }) => {
   return (
     <span>
       <img src={ICON[type]} alt="icon" />
