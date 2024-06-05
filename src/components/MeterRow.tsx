@@ -38,7 +38,7 @@ export const MeterRow: React.FC<{
       <td>{meter.description || 'N/A'}</td>
       <td style={{ width: '64px' }}>
         <DeleteButton onClick={handleDelete}>
-          <img src={DeleteIcon} alt="Delete Button Icon" />
+          <img src={DeleteIcon} alt="icon" />
         </DeleteButton>
       </td>
     </Row>
