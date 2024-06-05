@@ -1,20 +1,22 @@
 import React, { useEffect, useState } from 'react';
-import DeleteIcon from '../styled/icons/DeleteButtonHover.png';
+
 import ColdWaterIcon from '../styled/icons/ColdWaterIcon.png';
+import DeleteIcon from '../styled/icons/DeleteButtonHover.png';
 import HotWaterIcon from '../styled/icons/HotWaterIcon.png';
 
-import { meterStore } from '../store/MetersStore';
 import { DeleteButton, Row } from '../styled/Global.styled';
+import { metersStore } from '../store/MetersStore';
+import { MeterType } from './MeterType';
 
-const MeterRow: React.FC<{ meter: any; index: number }> = ({
+export const MeterRow: React.FC<{ meter: any; index: number }> = ({
   meter,
   index,
 }) => {
   const [address, setAddress] = useState('');
 
   useEffect(() => {
-    meterStore.fetchAddresses(meter.area.id).then(() => {
-      const address = meterStore.addresses.find(
+    metersStore.fetchAddresses(meter.area.id).then(() => {
+      const address = metersStore.addresses.find(
         (address) => address.id === meter.area.id
       );
       if (address) {
@@ -28,7 +30,7 @@ const MeterRow: React.FC<{ meter: any; index: number }> = ({
   }, [meter.area.id]);
 
   const handleDelete = () => {
-    meterStore.deleteMeter(meter.id);
+    metersStore.deleteMeter(meter.id);
   };
 
   return (
@@ -36,11 +38,16 @@ const MeterRow: React.FC<{ meter: any; index: number }> = ({
       <td style={{ textAlign: 'center', padding: '8px' }}>{index}</td>
       <td>
         {meter._type.includes('ColdWaterAreaMeter') ? (
-          <img src={ColdWaterIcon} alt="Cold Water Icon" />
+          <span>
+            <img src={ColdWaterIcon} alt="Cold Water Icon" />
+            ХВС
+          </span>
         ) : (
-          <img src={HotWaterIcon} alt="Hot Water Icon" />
-        )}{' '}
-        {meter._type.includes('ColdWaterAreaMeter') ? 'ХВС' : 'ГВС'}
+          <span>
+            <img src={HotWaterIcon} alt="Hot Water Icon" />
+            ГВС
+          </span>
+        )}
       </td>
       <td>
         {meter.installation_date
@@ -49,7 +56,7 @@ const MeterRow: React.FC<{ meter: any; index: number }> = ({
       </td>
       <td>{meter.is_automatic ? 'Да' : 'Нет'}</td>
       <td>{meter.initial_values || 'N/A'}</td>
-      <td>{address}</td>
+      <td>{address || 'N/A'}</td>
       <td>{meter.description || 'N/A'}</td>
       <td style={{ width: '64px' }}>
         <DeleteButton onClick={handleDelete}>
@@ -59,5 +66,3 @@ const MeterRow: React.FC<{ meter: any; index: number }> = ({
     </Row>
   );
 };
-
-export default MeterRow;

@@ -32,7 +32,7 @@ export const Header = styled.th`
   background: #f0f3f7;
 `;
 
-export const Pagination = styled.div`
+export const Footer = styled.div`
   height: 48px;
   padding: 0 4px;
   border: 1px solid #f0f3f7;

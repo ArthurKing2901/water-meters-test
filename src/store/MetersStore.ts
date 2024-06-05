@@ -1,46 +1,17 @@
-import { types, flow } from 'mobx-state-tree';
 import axios from 'axios';
+import { types, flow } from 'mobx-state-tree';
 
-export type MeterType = {
-  id: string;
-  _type: string[];
-  area: {
-    id: string;
-  };
-  is_automatic: boolean | null;
-  description: string;
-  installation_date: string;
-  initial_values: number[];
-};
+import { Address } from '../models/AddressModel';
+import { BaseURL } from '../api/BaseURL';
+import { Meter } from '../models/MeterModel';
 
-const House = types.model('House', {
-  id: types.identifier,
-  address: types.string,
-});
+const LIMIT = 20;
 
-const Address = types.model('Address', {
-  id: types.identifier,
-  str_number_full: types.string,
-  house: House,
-});
-
-const Meter = types.model('Meter', {
-  id: types.identifier,
-  _type: types.array(types.string),
-  installation_date: types.string,
-  is_automatic: types.maybeNull(types.boolean),
-  initial_values: types.array(types.number),
-  area: types.model({
-    id: types.identifier,
-  }),
-  description: types.string,
-});
-
-const MeterStore = types
-  .model('MeterStore', {
+const MetersStore = types
+  .model('MetersStore', {
     meters: types.array(Meter),
     addresses: types.array(Address),
-    limit: 20,
+    limit: LIMIT,
     offset: 0,
     totalCount: types.optional(types.number, 0), // добавлено свойство totalCount
   })
@@ -48,7 +19,7 @@ const MeterStore = types
     fetchMeters: flow(function* () {
       try {
         const response = yield axios.get(
-          `http://showroom.eis24.me/api/v4/test/meters/?limit=${self.limit}&offset=${self.offset}`
+          `${BaseURL}/meters/?limit=${self.limit}&offset=${self.offset}`
         );
         self.meters = response.data.results;
         self.totalCount = response.data.count; // сохраняем значение count
@@ -57,11 +28,9 @@ const MeterStore = types
       }
     }),
 
-    fetchAddresses: flow(function* (ids: string[]) {
+    fetchAddresses: flow(function* (id: string) {
       try {
-        const response = yield axios.get(
-          `http://showroom.eis24.me/api/v4/test/areas/?id__in=${ids}`
-        );
+        const response = yield axios.get(`${BaseURL}/areas/?id__in=${id}`);
         self.addresses = response.data.results;
       } catch (error) {
         console.error('Failed to fetch addresses', error);
@@ -70,9 +39,7 @@ const MeterStore = types
 
     deleteMeter: flow(function* (id: string) {
       try {
-        yield axios.delete(
-          `http://showroom.eis24.me/api/v4/test/meters/${id}/`
-        );
+        yield axios.delete(`${BaseURL}/meters/${id}/`);
         // @ts-ignore
         self.meters = self.meters.filter((meter) => meter.id !== id);
         if (self.meters.length < self.limit) {
@@ -91,7 +58,7 @@ const MeterStore = types
     }),
   }));
 
-export const meterStore = MeterStore.create({
+export const metersStore = MetersStore.create({
   meters: [],
   addresses: [],
 });
