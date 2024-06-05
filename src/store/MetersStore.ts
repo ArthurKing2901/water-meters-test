@@ -2,7 +2,7 @@ import axios from 'axios';
 import { types, flow } from 'mobx-state-tree';
 
 import { Address } from '../models/AddressModel';
-import { BaseURL } from '../api/BaseURL';
+import { baseURL } from '../models/baseURL';
 import { Meter } from '../models/MeterModel';
 
 const LIMIT = 20;
@@ -10,7 +10,7 @@ const LIMIT = 20;
 const MetersStore = types
   .model('MetersStore', {
     meters: types.array(Meter),
-    addresses: types.array(Address),
+    addresses: Address,
     limit: LIMIT,
     offset: 0,
     totalCount: types.optional(types.number, 0), // добавлено свойство totalCount
@@ -19,7 +19,7 @@ const MetersStore = types
     fetchMeters: flow(function* () {
       try {
         const response = yield axios.get(
-          `${BaseURL}/meters/?limit=${self.limit}&offset=${self.offset}`
+          `${baseURL}/meters/?limit=${self.limit}&offset=${self.offset}`
         );
         self.meters = response.data.results;
         self.totalCount = response.data.count; // сохраняем значение count
@@ -30,8 +30,8 @@ const MetersStore = types
 
     fetchAddresses: flow(function* (id: string) {
       try {
-        const response = yield axios.get(`${BaseURL}/areas/?id__in=${id}`);
-        self.addresses = response.data.results;
+        const response = yield axios.get(`${baseURL}/areas/?id__in=${id}`);
+        self.addresses = response.data.results[0];
       } catch (error) {
         console.error('Failed to fetch addresses', error);
       }
@@ -39,7 +39,7 @@ const MetersStore = types
 
     deleteMeter: flow(function* (id: string) {
       try {
-        yield axios.delete(`${BaseURL}/meters/${id}/`);
+        yield axios.delete(`${baseURL}/meters/${id}/`);
         // @ts-ignore
         self.meters = self.meters.filter((meter) => meter.id !== id);
         if (self.meters.length < self.limit) {
@@ -60,5 +60,15 @@ const MetersStore = types
 
 export const metersStore = MetersStore.create({
   meters: [],
-  addresses: [],
+  addresses: {
+    id: '',
+    number: 0,
+    str_number: '',
+    str_number_full: '',
+    house: {
+      address: '',
+      id: '',
+      fias_addrobjs: [],
+    },
+  },
 });

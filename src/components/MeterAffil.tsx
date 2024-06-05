@@ -1,5 +1,5 @@
-import ColdWaterIcon from '../../styled/icons/ColdWaterIcon.png';
-import HotWaterIcon from '../../styled/icons/HotWaterIcon.png';
+import ColdWaterIcon from '../styled/icons/ColdWaterIcon.png';
+import HotWaterIcon from '../styled/icons/HotWaterIcon.png';
 
 export type WaterAreaMeterType = 'ColdWaterAreaMeter' | 'HotWaterAreaMeter';
 
@@ -13,7 +13,7 @@ const ICON: Record<WaterAreaMeterType, string> = {
   HotWaterAreaMeter: HotWaterIcon,
 };
 
-export const MeterType = ({ type }: { type: WaterAreaMeterType }) => {
+export const MeterAffil = ({ type }: { type: WaterAreaMeterType }) => {
   return (
     <span>
       <img src={ICON[type]} alt="icon" />

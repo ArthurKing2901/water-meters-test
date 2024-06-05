@@ -1,8 +1,9 @@
 import { types } from 'mobx-state-tree';
+import { WaterAreaMeterType } from '../components/MeterAffil';
 
 export type MeterType = {
   id: string;
-  _type: string[];
+  _type: WaterAreaMeterType[];
   area: {
     id: string;
   };
