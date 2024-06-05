@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 
 import { observer } from 'mobx-react-lite';
 
 import DeleteIcon from '../styled/icons/DeleteButtonHover.png';
 import { DeleteButton, Row } from '../styled/Global.styled';
 import { metersStore } from '../store/MetersStore';
-import { MeterAffil } from './MeterAffil';
+import { MeterCharacter } from './MeterCharacter';
 import { MeterType } from '../models/MeterModel';
 import { AddressType } from '../models/AddressModel';
 
@@ -32,7 +32,7 @@ export const MeterRow: React.FC<{
     <Row>
       <td style={{ textAlign: 'center', padding: '8px' }}>{index}</td>
       <td>
-        <MeterAffil type={meter._type[0]} />
+        <MeterCharacter type={meter._type[0]} />
       </td>
       <td>
         {meter.installation_date

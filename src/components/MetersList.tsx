@@ -10,8 +10,8 @@ import {
   Table,
   TableContainer,
 } from '../styled/Global.styled';
-import { metersStore } from '../store/MetersStore';
 import { MeterRow } from './MeterRow';
+import { metersStore } from '../store/MetersStore';
 import { MeterType } from '../models/MeterModel';
 import { Pagination } from './Pagination';
 
@@ -23,6 +23,7 @@ export const MetersList = observer(() => {
   return (
     <Container>
       <H3>Список счётчиков</H3>
+
       <TableContainer>
         <Table>
           <thead>
@@ -37,6 +38,7 @@ export const MetersList = observer(() => {
               <Header></Header>
             </tr>
           </thead>
+
           <tbody>
             {metersStore.meters.map((meter, index) => (
               <MeterRow
@@ -48,6 +50,7 @@ export const MetersList = observer(() => {
           </tbody>
         </Table>
       </TableContainer>
+
       <Footer>{Pagination()}</Footer>
     </Container>
   );
